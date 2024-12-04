@@ -1,0 +1,58 @@
+syntax = 'proto3';
+
+
+package tasks;
+option go_package="github.com/arganaphang/tasks/gen_proto";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+enum TaskStatus {
+  TASK_STATUS_CREATED = 0;
+  TASK_STATUS_INPROGRESS = 1;
+  TASK_STATUS_COMPLETED = 2;
+}
+
+message Task {
+  string id = 1;
+  string description = 3;
+  string user_id = 4;
+  TaskStatus status = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+message CreateTaskRequest {
+  string description = 1;
+  string user_id = 2;
+}
+
+message GetTaskRequest {
+  string id = 1;
+}
+
+message ListTasksRequest {
+  string user_id = 2;
+}
+
+message ListTasksResponse {
+  repeated Task tasks = 1;
+}
+
+service TaskService {
+  rpc Create(CreateTaskRequest) returns (Task) {
+    option (google.api.http) = {
+      post: "/v1/tasks"
+      body: "*"
+    };
+  };
+  rpc GetTask(GetTaskRequest) returns (Task) {
+    option (google.api.http) = {
+      get: "/v1/tasks/{id}"
+    };
+  };
+  rpc ListTasks(ListTasksRequest) returns (ListTasksResponse) {
+    option (google.api.http) = {
+      get: "/v1/tasks"
+    };
+  };
+}

@@ -1,0 +1,6 @@
+{
+  "yaml.schemas": {
+    "https://json.schemastore.org/buf.gen.json": "buf.gen.yaml",
+    "https://json.schemastore.org/buf.json": "buf.yaml"
+  }
+}
